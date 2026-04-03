@@ -138,9 +138,9 @@ sensor/bedroom#        ✗  → 无效（没有占据整个层级）
 
 | 等级 | 语义 | 机制 |
 |------|------|------|
-| QoS 0 | 最多一次（At most once） | 发完即忘，不确认，可能丢失 |
-| QoS 1 | 至少一次（At least once） | 需要 PUBACK 确认，可能重复 |
-| QoS 2 | 恰好一次（Exactly once） | 四步握手（PUBLISH→PUBREC→PUBREL→PUBCOMP） |
+| QoS 0 | 最多一次（At most once） | 如果当时客户端不可用，则会丢失该消息。发布者发送一条消息之后，就不再关心它有没有发送到对方，也不设置任何重发机制 |
+| QoS 1 | 至少一次（At least once） | 包含了简单的重发机制，发布者发送消息之后等待接收者的 ACK，如果没收到 ACK 则重新发送消息。这种模式能保证消息至少能到达一次，但无法保证消息重复 |
+| QoS 2 | 恰好一次（Exactly once） | 四步握手（PUBLISH→PUBREC→PUBREL→PUBCOMP）设计了重发和重复消息发现机制，保证消息到达对方并且严格只到达一次 |
 
 > Day 3 将深入学习 QoS 机制和会话持久化，这里先建立基本印象。
 
